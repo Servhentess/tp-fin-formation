@@ -1,0 +1,23 @@
+---
+- name: Download mysql
+  yum:
+    name: mysql-community-server.x86_64
+    state: latest
+
+- name: Auto-start mysql
+  service:
+    name=mysqld
+    enabled=yes
+
+- name: Start mysql
+  service:
+    name=mysqld
+    state=started
+
+- name: Cut temp_passwd for ignore msg
+  shell: grep 'temporary password' /var/log/mysqld.log | cut -d ':' -f 4
+  register: temp_passwd
+
+- name: Display temp_passwd
+  debug:
+    msg: "{{ temp_passwd }}"
