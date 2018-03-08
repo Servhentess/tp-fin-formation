@@ -1,0 +1,5 @@
+---
+- name: Create user DCVTGBLA with password = Request password
+  user: 
+    name: DCVTGBLA
+    password: "{{Request_password}}"

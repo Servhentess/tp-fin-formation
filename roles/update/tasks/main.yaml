@@ -1,0 +1,5 @@
+---
+- name: Update all VM
+  yum:
+    name: '*'
+    state: latest

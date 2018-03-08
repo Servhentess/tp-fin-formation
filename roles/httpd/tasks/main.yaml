@@ -1,0 +1,15 @@
+---
+- name: Httpd installing
+  yum:
+    name: httpd
+    state: latest
+
+- name: Httpd auto-start
+  service:
+    name=httpd
+    enabled=yes
+
+- name: Httpd start
+  service:
+    name=httpd
+    state=started

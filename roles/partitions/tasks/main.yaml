@@ -1,0 +1,41 @@
+---
+- name: Create vg vgbus
+  lvg:
+        vg: vgbus
+        pvs: /dev/sdc
+
+- name: Create lv busapp(1g) busapps/dcvt/1.0/(1g) busdata(1g) busdata/dcvt/1.0/data(5g) busdata/dcvt/1.0/logs(2g)
+  lvol:
+        vg: vgbus
+        lv: "{{ item.name }}"
+        size: "{{ item.size }}"
+  with_items:
+    - { name: 'busapps', size: '1G' }
+    - { name: 'busapps1', size: '1G' }
+    - { name: 'busdata', size: '1G' }
+    - { name: 'busdatadata', size: '5G' }
+    - { name: 'busdatalogs', size: '2G' }
+
+- name: Create file system
+  filesystem:
+        fstype: ext3
+        dev: "{{ item }}"
+  with_items:
+    - /dev/vgbus/busapps
+    - /dev/vgbus/busapps1
+    - /dev/vgbus/busdata
+    - /dev/vgbus/busdatadata
+    - /dev/vgbus/busdatalogs
+
+- name: Mount filesystem
+  mount:
+    path: "{{ item.fs }}"
+    src: "{{ item.path }}"
+    fstype: ext3
+    state: mounted
+  with_items:
+    - { fs: '/busapps', path: '/dev/vgbus/busapps' }
+    - { fs: '/busapps/dcvt/1.0', path: '/dev/vgbus/busapps1' }
+    - { fs: '/busdata', path: '/dev/vgbus/busdata' }
+    - { fs: '/busdata/dcvt/1.0/data', path: '/dev/vgbus/busdatadata' }
+    - { fs: '/busdata/dcvt/1.0/logs', path: '/dev/vgbus/busdatalogs' }

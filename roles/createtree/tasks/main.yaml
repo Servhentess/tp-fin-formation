@@ -1,0 +1,21 @@
+---
+- name: create /busapps and /busdata folder with owner = root
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    state: directory
+  with_items:
+     - /busapps
+     - /busdata
+
+- name: create /busapps/dcvt/1.0 and /busdata/dcvt/1.0/(data/logs) with owner = DCVTGBLA
+  file:
+    path: "{{ item }}"
+    owner: DCVTGBLA
+    group: DCVTGBLA
+    state: directory
+  with_items:
+     - /busapps/dcvt/1.0
+     - /busdata/dcvt/1.0/data
+     - /busdata/dcvt/1.0/logs

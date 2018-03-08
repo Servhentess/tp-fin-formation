@@ -1,0 +1,28 @@
+---
+- name: Update all vm ===========================================
+  hosts: all
+  become: true
+
+  tasks:
+
+  roles:
+    - update
+
+- name: Create user on front vm =================================
+  hosts: front_end
+  become: true
+
+  vars_prompt:
+    - name: "Request_password"
+      prompt: "Enter a password for DCVTGBLA user :"
+      private: yes
+
+  tasks:
+
+  roles:
+    - createuser
+    - createtree
+    - partitions
+    - httpd
+    - java
+    - tomcat
