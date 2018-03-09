@@ -1,4 +1,9 @@
 ---
+- name: Install rpm
+  yum:
+    name: https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm
+    state: present
+
 - name: Download mysql
   yum:
     name: mysql-community-server.x86_64
