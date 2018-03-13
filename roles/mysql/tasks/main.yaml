@@ -20,9 +20,9 @@
     state=started
 
 - name: Cut temp_passwd for ignore msg
-  shell: grep 'temporary password' /var/log/mysqld.log | cut -d ':' -f 4
+  shell: grep 'temporary password' /var/log/mysqld.log | cut -d ':' -f 4-5
   register: temp_passwd
 
 - name: Display temp_passwd
   debug:
-    msg: "{{ temp_passwd }}"
+    msg: "Please connect to {{ ansible_host }} for configure mysql with this temp passwd:{{ temp_passwd.stdout }}"
